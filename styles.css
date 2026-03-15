@@ -334,7 +334,6 @@ input, textarea {
   outline: none;
   transition: border-color 0.2s;
 }
-input:focus, textarea:focus { border-color: rgba(124,111,255,0.5); }
 input::placeholder, textarea::placeholder { color: var(--muted); }
 textarea { resize: vertical; min-height: 130px; }
 .btn-submit {
@@ -362,6 +361,100 @@ textarea { resize: vertical; min-height: 130px; }
   display: flex; align-items: center; gap: 6px;
 }
 .socials a:hover { color: var(--text); }
+
+/* qr */
+/* ── QR MODAL ── */
+.qr-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  align-items: center; justify-content: center;
+}
+.qr-overlay.open { display: flex; }
+
+.qr-modal {
+  background: var(--bg2);
+  border: 1px solid rgba(124,111,255,0.3);
+  border-radius: var(--radius);
+  padding: 2rem 2.25rem;
+  text-align: center;
+  position: relative;
+  animation: fadeUp 0.25s forwards;
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+}
+
+.qr-close {
+  position: absolute; top: 0.75rem; right: 0.9rem;
+  background: none; border: none;
+  color: var(--muted); font-size: 1rem;
+  cursor: pointer; line-height: 1;
+  transition: color 0.2s;
+}
+.qr-close:hover { color: var(--text); }
+
+.qr-label {
+  font-size: 0.78rem; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+}
+
+.qr-link { display: block; }
+
+.qr-img {
+  display: block;
+  border-radius: 10px;
+  border: 2px solid rgba(124,111,255,0.25);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.qr-img:hover {
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+
+.qr-handle {
+  font-size: 0.82rem; color: var(--accent);
+  font-family: var(--font-head);
+}
+
+/* ── FORM TOAST ── */
+.form-toast {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  animation: fadeUp 0.3s forwards;
+}
+.form-toast.success {
+  display: block;
+  background: rgba(93,224,197,0.12);
+  border: 1px solid rgba(93,224,197,0.3);
+  color: var(--accent2);
+}
+.form-toast.error {
+  display: block;
+  background: rgba(255,100,100,0.1);
+  border: 1px solid rgba(255,100,100,0.25);
+  color: #ff8080;
+}
+
+/* Fix autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--bg2) inset;
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(124,111,255,0.5);
+  background: var(--bg2);
+}
 
 /* ── FOOTER ── */
 footer {
