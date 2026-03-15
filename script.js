@@ -7,6 +7,81 @@ const blockedDomains = [
   'yopmail.com', 'sharklasers.com', 'trashmail.com'
 ];
 
+// ── CAROUSEL ──
+const track     = document.getElementById('carousel-track');
+const prevBtn   = document.getElementById('carousel-prev');
+const nextBtn   = document.getElementById('carousel-next');
+const dotsEl    = document.getElementById('carousel-dots');
+const cards     = document.querySelectorAll('.carousel-card');
+const container = document.querySelector('.carousel-track-container');
+
+let current = 0;
+const GAP = 24; // matches 1.5rem gap
+
+function visibleCount() {
+  if (window.innerWidth <= 560) return 1;
+  if (window.innerWidth <= 900) return 2;
+  return 3;
+}
+
+function totalSlides() {
+  return Math.ceil(cards.length / visibleCount());
+}
+
+function setCardWidths() {
+  const vc = visibleCount();
+  const containerWidth = container.offsetWidth;
+  const cardWidth = (containerWidth - GAP * (vc - 1)) / vc;
+  cards.forEach(card => {
+    card.style.width = cardWidth + 'px';
+    card.style.minWidth = cardWidth + 'px';
+  });
+}
+
+function buildDots() {
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < totalSlides(); i++) {
+    const dot = document.createElement('button');
+    dot.classList.add('dot');
+    if (i === current) dot.classList.add('active');
+    dot.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(dot);
+  }
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+}
+
+function goTo(index) {
+  current = Math.max(0, Math.min(index, totalSlides() - 1));
+  const vc = visibleCount();
+  const containerWidth = container.offsetWidth;
+  const cardWidth = (containerWidth - GAP * (vc - 1)) / vc;
+  const slideWidth = (cardWidth + GAP) * vc;
+  track.style.transform = `translateX(-${current * slideWidth}px)`;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current >= totalSlides() - 1;
+  updateDots();
+}
+
+prevBtn.addEventListener('click', () => goTo(current - 1));
+nextBtn.addEventListener('click', () => goTo(current + 1));
+
+window.addEventListener('resize', () => {
+  current = 0;
+  setCardWidths();
+  buildDots();
+  goTo(0);
+});
+
+// Init
+setCardWidths();
+buildDots();
+goTo(0);
+
 function isValidEmail(email) {
   // Must have proper format: something@something.tld (min 2 char TLD)
   const regex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
@@ -25,7 +100,7 @@ hamburger.addEventListener('click', () => {
 });
 
 document.querySelectorAll('.mobile-menu a, .nav-link').forEach(link => {
-  link.addEventListener('c lick', () => {
+  link.addEventListener('click', () => {
     hamburger.classList.remove('open');
     mobileMenu.classList.remove('open');
   });
