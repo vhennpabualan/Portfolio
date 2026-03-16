@@ -8,6 +8,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+<!-- QR Generator App Modal -->
+<div class="qr-overlay" id="qr-app-overlay">
+  <div class="qr-modal qr-app-modal">
+    <button class="qr-close" id="qr-app-close">✕</button>
+    <p class="qr-label">QR Code Generator</p>
+    <div class="qr-app-body">
+      <input 
+        type="text" 
+        id="qr-app-input" 
+        placeholder="Enter URL or text..."
+      />
+      <button id="qr-app-generate" class="btn-submit">Generate ✦</button>
+      <div id="qr-app-output">
+        <div id="qr-app-canvas-container"></div>
+        <div class="qr-app-btns">
+          <button id="qr-app-download" class="btn-submit qr-dl-btn">Download ↓</button>
+          <button id="qr-app-clear" class="btn-submit qr-clear-btn">Clear ✕</button>
+        </div>
+        <p id="qr-app-msg"></p>
+      </div>
+    </div>
+  </div>
+</div>
 <body>
 
 <!-- NAV -->
@@ -232,18 +255,17 @@
         </div>
 
         <!-- Card 6 -->
-        <div class="project-card carousel-card coming-soon">
+        <div class="project-card carousel-card">
           <div class="project-thumb">📷</div>
           <div class="project-body">
-            <div class="soon-badge">🚧 Coming Soon</div>
             <h3>QR Generator</h3>
             <p>A clean and simple QR code generator — input any URL or text and download instantly.</p>
             <div class="skill-tags" style="margin-bottom: 1rem;">
               <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
             </div>
-            <div class="project-links muted-links">
-              <a href="#">↗ GitHub</a>
-              <a href="#" class="demo">→ In Progress</a>
+            <div class="project-links">
+              <a href="https://github.com/vhennpabualan/qr-generator" target="_blank">↗ GitHub</a>
+              <a href="#" class="demo" id="qr-app-trigger">→ Live Demo</a>
             </div>
           </div>
         </div>

@@ -7,6 +7,92 @@ const blockedDomains = [
   'yopmail.com', 'sharklasers.com', 'trashmail.com'
 ];
 
+// ── QR GENERATOR APP MODAL ──
+const qrAppOverlay   = document.getElementById('qr-app-overlay');
+const qrAppTrigger   = document.getElementById('qr-app-trigger');
+const qrAppClose     = document.getElementById('qr-app-close');
+const qrAppInput     = document.getElementById('qr-app-input');
+const qrAppGenerate  = document.getElementById('qr-app-generate');
+const qrAppOutput    = document.getElementById('qr-app-output');
+const qrAppContainer = document.getElementById('qr-app-canvas-container');
+const qrAppDownload  = document.getElementById('qr-app-download');
+const qrAppClear     = document.getElementById('qr-app-clear');
+const qrAppMsg       = document.getElementById('qr-app-msg');
+let appQrCode = null;
+
+// Load QRCode.js only when needed
+function loadQRLib(callback) {
+  if (window.QRCode) { callback(); return; }
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+  script.onload = callback;
+  document.head.appendChild(script);
+}
+
+qrAppTrigger.addEventListener('click', (e) => {
+  e.preventDefault();
+  qrAppOverlay.classList.add('open');
+  loadQRLib(() => {});
+  setTimeout(() => qrAppInput.focus(), 100);
+});
+
+qrAppClose.addEventListener('click', () => qrAppOverlay.classList.remove('open'));
+qrAppOverlay.addEventListener('click', (e) => {
+  if (e.target === qrAppOverlay) qrAppOverlay.classList.remove('open');
+});
+
+qrAppGenerate.addEventListener('click', generateAppQR);
+qrAppInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') generateAppQR();
+});
+
+function generateAppQR() {
+  const text = qrAppInput.value.trim();
+  if (!text) {
+    qrAppMsg.style.color = '#ff8080';
+    qrAppMsg.textContent = '❌ Please enter text or URL';
+    return;
+  }
+  qrAppContainer.innerHTML = '';
+  loadQRLib(() => {
+    appQrCode = new QRCode(qrAppContainer, {
+      text: text,
+      width: 200, height: 200,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    qrAppOutput.style.display = 'flex';
+    qrAppMsg.style.color = 'var(--accent2)';
+    qrAppMsg.textContent = '✅ QR code generated!';
+  });
+}
+
+qrAppDownload.addEventListener('click', () => {
+  const canvas = qrAppContainer.querySelector('canvas');
+  if (!canvas) return;
+  canvas.toBlob((blob) => {
+    const url  = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `qrcode_${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    qrAppMsg.textContent = '✅ Downloaded!';
+  });
+});
+
+qrAppClear.addEventListener('click', () => {
+  qrAppInput.value = '';
+  qrAppContainer.innerHTML = '';
+  qrAppOutput.style.display = 'none';
+  qrAppMsg.textContent = '';
+  appQrCode = null;
+  qrAppInput.focus();
+});
+
 // ── CAROUSEL ──
 const track     = document.getElementById('carousel-track');
 const prevBtn   = document.getElementById('carousel-prev');

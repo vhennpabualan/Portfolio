@@ -17,6 +17,67 @@
 
 html { scroll-behavior: smooth; }
 
+/* ── QR APP MODAL ── */
+.qr-app-modal {
+  width: min(420px, 92vw);
+}
+.qr-app-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.qr-app-body input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+}
+.qr-app-body input:focus {
+  border-color: rgba(124,111,255,0.5);
+}
+#qr-app-output {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+#qr-app-canvas-container {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid rgba(124,111,255,0.25);
+}
+.qr-app-btns {
+  display: flex;
+  gap: 0.75rem;
+}
+.qr-dl-btn {
+  background: var(--accent2) !important;
+  color: #0c0c0f !important;
+  padding: 0.55rem 1.1rem !important;
+  font-size: 0.82rem !important;
+}
+.qr-clear-btn {
+  background: var(--bg3) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--muted) !important;
+  padding: 0.55rem 1.1rem !important;
+  font-size: 0.82rem !important;
+}
+#qr-app-msg {
+  font-size: 0.8rem;
+  color: var(--accent2);
+  min-height: 1rem;
+}
+
 body {
   font-family: var(--font-body);
   background: var(--bg);
